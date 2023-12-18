@@ -1,0 +1,29 @@
+sequenceDiagram
+    actor Educator
+    participant EducatorWebApp
+    participant Dispatcher
+    participant BattleManager
+    participant Model
+    participant DBMS
+    participant NotificationManager
+    participant StudentWebApp
+
+    Educator->>EducatorWebApp: Open Battle Creation Page
+    EducatorWebApp-->>Educator: Display Battle Creation Page
+    EducatorWebApp->>Dispatcher: Request Battle Creation
+    Dispatcher->>BattleManager: Handle Battle Creation Request
+    BattleManager->>Model: Check Tournament and Battle Status
+    alt Battle Creation Allowed
+        Model-->>DBMS: Save Battle Data
+        DBMS-->>Model: Confirmation
+        Model-->>BattleManager: Battle Creation Success
+        BattleManager-->>Dispatcher: Notify Battle Creation Success
+        Dispatcher-->>EducatorWebApp: Display Battle Creation Success Message
+        EducatorWebApp-->>Educator: Battle Creation Successful
+        Dispatcher-->>NotificationManager: Notify Students about New Battle
+        NotificationManager-->>StudentWebApp: New Battle Notification
+    else Battle Creation Not Allowed
+        BattleManager-->>Dispatcher: Notify Battle Creation Failure
+        Dispatcher-->>EducatorWebApp: Display Battle Creation Failure Message
+        EducatorWebApp-->>Educator: Battle Creation Failed
+    end

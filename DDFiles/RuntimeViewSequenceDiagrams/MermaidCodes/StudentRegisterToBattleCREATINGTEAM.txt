@@ -1,0 +1,31 @@
+sequenceDiagram
+    actor Student
+    participant StudentWebApp
+    participant Dispatcher
+    participant TeamManager
+    participant RegistrationBattleManager
+    participant Model
+    participant DBMS
+
+    Student->>StudentWebApp: Open Battle Participation Page
+    StudentWebApp-->>Student: Display Battle Participation Page
+    StudentWebApp->>Dispatcher: Request Battle Participation
+    Dispatcher->>TeamManager: Check Available Teams
+    TeamManager->>Model: Check Team Creation Possibility
+    alt Team Creation Possibility OK
+    
+        Model-->>TeamManager: Team Creation Success
+        TeamManager ->> RegistrationBattleManager: Registrate New Team To The Battle Request
+        RegistrationBattleManager ->> Model: Registrate New Team To The Battle Request
+                Model-->>DBMS: Save New Team Data
+        DBMS-->>Model: Confirmation
+        Model -->> RegistrationBattleManager: Registration Success
+        RegistrationBattleManager -->> Dispatcher: Notify Registration Success
+        Dispatcher -->> StudentWebApp: Display Registration Success Message
+        StudentWebApp -->> Student: Registration Success
+    else Team creation possibility KO
+        Model -->> TeamManager: Team Creation Failure
+        TeamManager -->> Dispatcher: Notify Team Creation Failure
+        Dispatcher -->> StudentWebApp: Display Registration Failure Message
+        StudentWebApp -->> Student: Team Registration Failure
+    end

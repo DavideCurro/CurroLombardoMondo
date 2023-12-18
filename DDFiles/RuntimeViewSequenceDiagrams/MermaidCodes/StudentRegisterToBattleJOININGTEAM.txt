@@ -1,0 +1,53 @@
+sequenceDiagram
+    actor Student1
+    actor Student2
+    participant StudentWebApp1
+    participant StudentWebApp2
+    participant Dispatcher
+    participant TeamManager
+    participant RegistrationBattleManager
+    participant Model
+    participant DBMS
+
+    Student1 ->> StudentWebApp1: Open the Team Managing Page
+    StudentWebApp1 ->> Dispatcher: Send an invitation request to Student2
+    Dispatcher ->> TeamManager: Invitation Request
+    TeamManager -->> Dispatcher: Send Invitation Request and notify
+    Dispatcher -->> StudentWebApp1: Invitation Successful Message
+    StudentWebApp1 -->> Student1: Display Invitation Succesful
+    Dispatcher -->> StudentWebApp2: Invitation Request Message
+    StudentWebApp2 -->> Student2: Display the request to join Student1's Team
+    alt Student2 accept the invitation
+        Student2 ->> StudentWebApp2: Accepts the invitation
+        StudentWebApp2->>Dispatcher: Join Student1's Team Request
+        Dispatcher ->> TeamManager: Join Student1's Team Request
+        TeamManager ->> Model: Check For Available Space in the Team
+        alt There is enough space in the team
+            Model -->> TeamManager: Request Allowed
+            TeamManager ->> RegistrationBattleManager: Registrate Student2 in Student1's Team Request
+            RegistrationBattleManager ->> Model:  Registrate Student2 in Student1's Team Request
+            Model ->> DBMS: Registration Query
+            DBMS -->> Model: Data Correctly Saved
+            Model -->> RegistrationBattleManager: Joining Team Succes
+            RegistrationBattleManager -->> TeamManager: Joining Team Succes
+            TeamManager -->> Dispatcher: Joining Team Succes
+            Dispatcher -->> StudentWebApp2: Joining Team Succes
+            StudentWebApp2 -->> Student2: Joining Team Succes
+
+            
+        else There is no space in the team
+            Model -->> TeamManager: Request Not Allowed
+            TeamManager -->> Dispatcher: Notify Not Enough Space Message
+            Dispatcher -->> StudentWebApp2: Display Not Enough Space Message
+            StudentWebApp2 -->> Student2: Not Allowed To Join The Team
+        end
+    else Student2 decline the invitation
+        Student2 ->> StudentWebApp2: Decline Student1's Invitation
+        StudentWebApp2 ->> Dispatcher: Decline Invitation Request
+        Dispatcher -->> StudentWebApp1: Notify that Student2's Declined Invitation
+        StudentWebApp1 -->> Student1: Display Declinantion Message
+
+    end
+
+
+

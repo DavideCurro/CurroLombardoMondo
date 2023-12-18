@@ -1,0 +1,29 @@
+sequenceDiagram
+    actor Educator
+    participant EducatorWebApp
+    participant Dispatcher
+    participant TournamentManager
+    participant Model
+    participant DBMS
+    participant NotificationManager
+    participant StudentWebApp
+
+    Educator->>EducatorWebApp: Open Tournament Creation Page
+    EducatorWebApp-->>Educator: Display Tournament Creation Page
+    EducatorWebApp->>Dispatcher: Request Tournament Creation
+    Dispatcher->>TournamentManager: Handle Tournament Creation Request
+    TournamentManager->>Model: Create New Tournament
+    alt Tournament Creation Successful
+        Model-->>DBMS: Save Tournament Data
+        DBMS-->>Model: Confirmation
+        Model-->>TournamentManager: Tournament Data
+        TournamentManager-->>Dispatcher: Notify Creation Success
+        Dispatcher->>NotificationManager: Notify Students
+        NotificationManager-->>StudentWebApp: New Tournament Notification
+        Dispatcher-->>EducatorWebApp: Redirect to Tournament Management
+        EducatorWebApp-->>Educator: Tournament Creation Successful
+    else Tournament Creation Failed
+        TournamentManager-->>Dispatcher: Notify Creation Failure
+        Dispatcher-->>EducatorWebApp: Display Error Message
+        EducatorWebApp-->>Educator: Tournament Creation Failed
+    end

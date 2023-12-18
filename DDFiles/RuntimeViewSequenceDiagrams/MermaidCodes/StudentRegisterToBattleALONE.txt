@@ -1,0 +1,25 @@
+sequenceDiagram
+    actor Student
+    participant StudentWebApp
+    participant Dispatcher
+    participant RegistrationBattleManager
+    participant Model
+    participant DBMS
+
+    Student->>StudentWebApp: Open Battle Participation Page
+    StudentWebApp-->>Student: Display Battle Participation Page
+    StudentWebApp->>Dispatcher: Request Battle Participation
+    Dispatcher->>RegistrationBattleManager: Handle Registration Request
+    RegistrationBattleManager->>Model: Check Registration Possibility
+    alt Registration Allowed
+        Model-->>DBMS: Save Registration Data
+        DBMS-->>Model: Confirmation
+        Model-->>RegistrationBattleManager: Registration Success
+        RegistrationBattleManager-->>Dispatcher: Notify Registration Success
+        Dispatcher-->>StudentWebApp: Display Registration Success Message
+        StudentWebApp -->> Student: Registration successful
+    else Registration Not Allowed
+        RegistrationBattleManager-->>Dispatcher: Notify Registration Failure
+        Dispatcher-->>StudentWebApp: Display Registration Failure Message
+        StudentWebApp -->> Student: Registration Failure
+    end

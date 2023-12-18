@@ -1,0 +1,25 @@
+sequenceDiagram
+    actor Student
+    participant StudentWebApp
+    participant Dispatcher
+    participant RegistrationInTournamentManager
+    participant Model
+    participant DBMS
+
+    Student->>StudentWebApp: Open Tournament Registration Page
+    StudentWebApp-->>Student: Display Tournament Registration Page
+    StudentWebApp->>Dispatcher: Request Tournament Registration
+    Dispatcher->>RegistrationInTournamentManager: Handle Registration Request
+    RegistrationInTournamentManager->>Model: Check Tournament and Registration Status
+    alt Registration Allowed
+        Model-->>DBMS: Save Registration Data
+        DBMS-->>Model: Confirmation
+        Model-->>RegistrationInTournamentManager: Registration Success
+        RegistrationInTournamentManager-->>Dispatcher: Notify Registration Success
+        Dispatcher-->>StudentWebApp: Display Registration Success Message
+        StudentWebApp-->>Student: Registration Successful
+    else Registration Not Allowed
+        RegistrationInTournamentManager-->>Dispatcher: Notify Registration Failure
+        Dispatcher-->>StudentWebApp: Display Registration Failure Message
+        StudentWebApp-->>Student: Registration Failed
+    end

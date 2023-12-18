@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor Student
+    participant StudentWebApp
+    participant GitHubAPIManager
+    participant SubmissionManager
+    participant Model
+    participant DBMS
+
+    Student  ->> GitHubAPIManager: Pushes new commit to repository
+    GitHubAPIManager ->> SubmissionManager: New submission available
+    SubmissionManager ->> GitHubAPIManager: Pull the last submission
+    GitHubAPIManager -->> SubmissionManager: Last Submission + Test Cases
+    SubmissionManager ->> SubmissionManager: Analyze and Run Test cases on the received submission to calculate the Score
+    SubmissionManager ->> Model: Update Team/Student Battle Score
+    Model ->> DBMS: Update Team/Student Battle Score
+    DBMS -->> Model: Update success
+    Model -->> SubmissionManager: Update success
+    SubmissionManager -->> StudentWebApp: Submission success message
+    StudentWebApp -->> Student: Display Submission Sucess Message

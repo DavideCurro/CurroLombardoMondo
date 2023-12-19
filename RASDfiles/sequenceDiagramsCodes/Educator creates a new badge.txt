@@ -1,0 +1,20 @@
+title Educator creates a new badge
+    title Educator creates a new badge
+    
+    Educator ->> CKB: getTournamentManagementView(Tournament)
+    CKB ->> Educator: TournamentMangementView(Tournament)
+  
+
+
+    Educator ->> CKB: getCreateNewBadgeView()
+    CKB -->> Educator: createNewBadgeView()
+
+    Educator ->> CKB: submitBadgeDetails()
+    activate Badge
+    alt Success
+        CKB ->> Badge: storeBadgeInformation()
+    else Exception
+        CKB -->> Educator: displayErrorMessage()
+    end
+    
+

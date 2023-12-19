@@ -1,0 +1,7 @@
+title Visualization of the badges
+
+Student  ->CKB:getAccountview
+ Student <--CKB: AccountView
+    Student  ->CKB: MyBadges()
+    Student <--CKB: Badges()
+   

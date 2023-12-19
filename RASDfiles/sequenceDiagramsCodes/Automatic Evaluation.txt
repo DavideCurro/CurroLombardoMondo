@@ -1,0 +1,28 @@
+title Automatic Evaluation
+
+CKB->GitHubAPI: DownloadCommit(teamId, BattleId)
+    GitHubAPI->GitHub:DownloadCommit(teamId, BattleId)
+    GitHubAPI<--GitHub:Ack, Commit(data)
+    CKB<--GitHubAPI: Ack, ShowCommit(data)
+    
+CKB->GitHubAPI: DownloadInfo(teamId, BattleId)
+GitHubAPI->GitHub:DownloadInfo(teamId, BattleId)
+    GitHubAPI<--GitHub:Ack, Info(data)
+    CKB<--GitHubAPI: Ack, ShowInfo(data)
+    
+    
+    
+    CKB->CKB:AutomaticEvaluation()
+    CKB->TestCases:Test(BattleID, Code)
+    CKB<--TestCases:Result()
+    CKB->CKB:StaticAnanlysis(Code)
+    CKB->Tournament:NewScore(TournamentId,BattleId, TeamId, Score)
+    CKB<--Tournament:Ack
+    
+    Tournament->Battle:NewScore(BattleId, TeamId, Score)
+    Tournament<--Battle:Ack
+    
+    Battle->Score:NewScore(BattleId, TeamId, Score)
+    Battle<--Score:Ack
+    Score->Student:ShowRank()
+   

@@ -1,0 +1,90 @@
+classDiagram
+    class CodeKataBattle {
+        - tournaments: Tournament[]
+    }
+
+    class Tournament {
+        - maxTeamParticipants: int
+        - minTeamParticipatns: int
+        - tournamentID: int
+        - description: string
+        - registrationDeadline: Date
+        - submissionDeadline: Date
+        - battles: Battle[]
+        - participants: Student[]
+        - educator: Educator
+        
+    }
+
+    class Battle {
+        - battleID: int
+        - description: string
+        - sourceCode: string
+        - educator: Educator
+        - teams: Team[]
+        - testCases: TestCase[]
+        - scores: Score[]
+                
+    }
+
+    class Student {
+        - name: string
+        - surname: string
+        - email: string
+        - password: string
+        - subscribedTournaments: Tournament[]
+        - badges: Badge[]
+        
+    }
+
+    class Educator {
+        - name: string
+        - surname: string
+        - email: string
+        - password: string
+    }
+
+    class Team {
+        - teamID: int
+        - tournamentID: int
+        - students: Student[]
+        - repositoryLink: string
+        
+    }
+
+    class TestCase {
+        - description: string
+        - testConditions: string
+    }
+
+    class Score {
+        - scoreID: int
+        - competitionID: int
+        - teamID: int
+        - functionalAspect: float
+        - timeliness: float
+        - qualityLevel: float
+        - personalScore: float
+        
+    }
+
+    class Badge {
+        - title: string
+        - rules: Rule[]
+    }
+
+    class Rule {
+        - condition: string
+    }
+
+    CodeKataBattle "1" *-- "1..*" Tournament
+    Tournament "1" *-- "1..*" Battle
+    Battle "1" *-- "1..*" Team
+    Battle "1" *-- "1..*" TestCase
+    Battle "1" *-- "1..*" Score
+    Student "1" *-- "1..*" Tournament
+    Student "1" *-- "1..*" Badge
+    Educator "1" *-- "1..*" Tournament
+    Educator "1" *-- "1..*" Battle
+    Team "1" *-- "1..*" Student
+    Badge "1" *-- "1..*" Rule

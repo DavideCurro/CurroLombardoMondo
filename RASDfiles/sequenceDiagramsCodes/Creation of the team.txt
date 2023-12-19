@@ -1,0 +1,34 @@
+title Creation of the team, we assume min 2, max 4 participants
+ Student 1->CKB:getHomePage()
+    Student 1<--CKB:HomePage()
+    Student 1->CKB:getTournamentPage()
+    Student 1<--CKB:TournamentPage()
+Student 1->CKB:SelectBattle()
+    Student 1<--CKB:BattlePage()
+Student 1 ->CKB: NewTeam(TeamName)
+    
+     alt Name already used
+        Student 1<--CKB: Error Message
+    else 
+        Student 1 <--CKB: Ack
+    end
+ 
+    Student 1->Student 2:  InvitationTeam(TeamName)
+    Student 1<--Student 2:AcceptInvitation(Username)
+   
+    Student 1 ->CKB: NewMember(TeamName)
+    
+    alt Name already present||Max reached||Not registered
+    Student 1<--CKB: Error
+    else 
+    Student 1<--CKB: ListofMembers()
+    end
+    
+    CKB->CKB:TeamCreation(Members)
+    
+    Student 3 ->CKB:NewMember(TeamName)
+    alt Name already present||Max reached||Not registered
+    Student 1<--CKB: Error
+    else 
+    Student 1<--CKB: ListofMembers()
+    end

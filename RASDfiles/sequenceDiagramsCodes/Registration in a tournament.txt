@@ -1,0 +1,23 @@
+title Registration in a tournament
+
+
+       Student->CKB:getHomePage()
+    Student<--CKB:HomePage
+    Student->CKB: SearchTournament()
+    
+     alt Tournaments available
+        Student<--CKB: ListofAvailableTournaments()
+    else No available Tournaments
+        Student<--CKB:HomePage
+    end
+ 
+    Student->CKB:  Register(TournamentName)
+    
+    alt Tournament valid
+        Student<--CKB: TournamentPage
+    else Tournament not valid
+        Student<--CKB: ListofAvailableTournaments()
+    end
+    
+    CKB->Tournament:newParticipant()
+    CKB<--Tournament: Ack

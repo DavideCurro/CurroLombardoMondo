@@ -1,0 +1,14 @@
+title Educator Removes Badge from Student
+
+    Educator->CKB: getEducatorPage()
+    Educator<--CKB:EducatorPage()
+    Educator->CKB: getTournamentManagementView()
+    Educator<--CKB:TournamentManagementView()
+    Educator->CKB: removeBadge(Student data, type of badge)
+    alt  invalid data inserted
+    Educator<--CKB:Error
+    else 
+    Educator<--CKB:BadgeRemoved()
+    end
+    CKB->Student: StudentHomePage(name, badge, score)
+    CKB<--Student:Ack

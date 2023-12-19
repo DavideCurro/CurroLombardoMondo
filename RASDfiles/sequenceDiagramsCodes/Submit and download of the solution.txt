@@ -1,0 +1,36 @@
+title Submit and download of the solution
+    Student->CKB:getHomePage()
+    Student<--CKB:HomePage()
+    Student->CKB:getTournamentPage(TournamentName)
+    Student<--CKB:TournamentPage()
+    Student->CKB:  SelectBattle(BattleName)
+    Student<--CKB: IntoTheBattle()
+    
+    Student->CKB: DownloadCodeKata()
+    alt  invalid data inserted
+    Student<--CKB:Error
+    else valid data inserted
+    Student<--CKB:Ack, ShowCode(Code, Description, LinkGithubRepo)
+    end
+    
+    
+    Student-> GitHub:SubmitSolution(Code)
+    alt  invalid data inserted
+    Student<--GitHub:Error
+    else valid data inserted
+    Student<--GitHub:Ack
+    end
+    
+    
+    CKB->GitHubAPI: DownloadCommit(teamId, BattleId)
+    GitHubAPI->GitHub:DownloadCommit(teamId, BattleId)
+    GitHubAPI<--GitHub:Ack, Commit(data)
+    CKB<--GitHubAPI: Ack, ShowCommit(data)
+    
+CKB->GitHubAPI: DownloadInfo(teamId, BattleId)
+GitHubAPI->GitHub:DownloadInfo(teamId, BattleId)
+    GitHubAPI<--GitHub:Ack, Info(data)
+    CKB<--GitHubAPI: Ack, ShowInfo(data)
+    
+  
+    CKB->CKB:Evaluation()

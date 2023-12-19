@@ -1,0 +1,17 @@
+title Educator Login
+
+
+    title Student Login
+
+    Student->CKB:getStartingView()
+    Student<--CKB:StartingView()
+
+    Student->CKB: selectLogin()
+    Student<--CKB:LoginView()
+    Student->CKB:  SubmitData(LoginData)
+    alt data valid
+        Student<--CKB: HomePage
+    else data not valid
+        Student<--CKB: LoginView
+    end
+

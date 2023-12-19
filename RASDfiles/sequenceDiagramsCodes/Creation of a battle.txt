@@ -1,0 +1,13 @@
+title Creation of a battle
+    Educator->CKB: getEducatorPage()
+    Educator<--CKB:EducatorPage()
+    Educator->CKB: getTournamentManagementView()
+    Educator<--CKB:TournamentManagementView()
+    Educator->CKB: createBattle(BattleData, Deadlines)
+    alt Battle already exists || invalid data inserted
+    Educator<--CKB:Error
+    else 
+    Educator<--CKB:BattleRegistration()
+    end
+    CKB->Tournament: NewBattle(name, codekata, testcases)
+    Tournament->Battle:AssociatedTestcases()

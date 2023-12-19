@@ -1,0 +1,24 @@
+title Registration in a battle
+
+    Student->CKB:getHomePage()
+    Student<--CKB:HomePage()
+    Student->CKB:getTournamentPage()
+    Student<--CKB:TournamentPage()
+    Student->CKB: SearchBattles()
+    
+     alt Battles available
+        Student<--CKB: ListofBattles()
+    else No available Battles
+        Student<--CKB:TournamentPage()
+    end
+ 
+    Student->CKB:  SelectBattle(BattleName)
+    
+    alt Battle valid && deadline date respected
+        Student<--CKB: BattlePage
+    else Battle not valid || deadline date not respected
+        Student<--CKB: ListofBattles()
+    end
+    
+    CKB->Battle:newParticipant()
+    CKB<--Battle: Ack

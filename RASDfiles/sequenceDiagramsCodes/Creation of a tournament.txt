@@ -1,0 +1,13 @@
+title Creation of a tournament
+
+    Educator->CKB: getEducatorPage()
+    Educator<--CKB:EducatorPage()
+    Educator->CKB: getCreateTournamentView()
+    Educator<--CKB:CreateTournamentView()
+    Educator->CKB: createTournament(TournamentData)
+    alt Tournament already exists
+    Educator<--CKB:Error
+    else
+    Educator<--CKB:TournamentWaitingView()
+    end
+    CKB->Student:Notifications()

@@ -1,0 +1,14 @@
+title Visualization of the scores
+Student  ->CKB:getAccountview
+ Student <--CKB: AccountView
+
+    Student  ->CKB: Myscore()
+    Student <--CKB: PersonalScoreView()
+   
+    Student  ->CKB: TeamScore(TeamName)
+    
+    alt Team does not exists
+    Student <--CKB: Error
+    else 
+    Student <--CKB: TeamScoreView()
+    end

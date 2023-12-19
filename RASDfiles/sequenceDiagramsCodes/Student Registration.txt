@@ -1,0 +1,14 @@
+title Student Registration
+
+
+    Student->CKB: getStartingView()
+    Student<--CKB:StartingView()
+    Student->CKB: selectRegistration()
+    Student<--CKB:RegisterView()
+    Student->CKB:  InsertsubmitData(registrationData)
+    alt data valid
+        Student<--CKB: HomePage
+    else data not valid
+        Student<--CKB: RegisterView
+    end
+

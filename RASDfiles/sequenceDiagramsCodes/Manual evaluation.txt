@@ -1,0 +1,27 @@
+title Manual evaluation
+
+    Educator->CKB:getEducatorHomePage()
+    Educator<--CKB:EducatorHomePage()
+    Educator->CKB:getTournamentManagementView(TournamentName)
+    Educator<--CKB:TournamentManagementView()
+    Educator->CKB:  SelectBattle(BattleName)
+    Educator<--CKB: EndBattle()
+    
+    Educator->CKB: ManualEvaluation(BattleName)
+    alt  invalid data inserted
+    Educator<--CKB:Error
+    else valid data inserted
+    Educator<--CKB:Ack, DataEvaluation(automatic score, commits, info, measurement)
+    end
+    
+    Educator->CKB: NewScore(teamId, BattleId)
+    
+   alt  invalid data inserted
+    Educator<--CKB:Error
+    else valid data inserted
+    Educator<--CKB:Ack
+    end
+    CKB->Tournament:UpdatedScore(data)
+    CKB<--Tournament:Ack
+    Tournament->Score:NewScore(TournamentId,Data)
+    Tournament<--Score: Ack, Ranking(teams)

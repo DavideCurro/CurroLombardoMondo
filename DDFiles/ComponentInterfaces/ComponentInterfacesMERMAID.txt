@@ -1,0 +1,155 @@
+classDiagram
+    StudentServerAPI --> StudentRegistrationInterface
+    StudentServerAPI --> StudentLoginInterface
+    StudentServerAPI --> StudentTournamentInterface
+    StudentServerAPI --> StudentBattleInterface 
+    StudentServerAPI --> TeamInterface
+    StudentServerAPI --> StudentBadgeInterface
+    StudentRegistrationInterface --> ModelInterface
+    StudentLoginInterface --> ModelInterface
+    StudentTournamentInterface --> ModelInterface
+    StudentBattleInterface  --> ModelInterface
+    TeamInterface --> ModelInterface
+    StudentBadgeInterface --> ModelInterface
+    ExternalGitHubAPI --> GitHubInterface
+    GitHubInterface --> SubmissionInterface
+    SubmissionInterface --> ModelInterface
+    NotificationInterface --> DataRetrievalInterface
+    EducatorServerAPI --> RegistrationEducatorInterface
+    EducatorServerAPI --> LoginEducatorInterface
+    EducatorServerAPI --> TournamentInterface
+    EducatorServerAPI --> BattleInterface
+    EducatorServerAPI --> BadgeInterface
+    EducatorServerAPI --> EvaluationInterface
+    EducatorServerAPI --> DataRetrievalInterface
+    RegistrationEducatorInterface --> ModelInterface
+    LoginEducatorInterface --> ModelInterface
+    TournamentInterface --> ModelInterface
+    BattleInterface --> ModelInterface
+    BadgeInterface --> ModelInterface
+    EvaluationInterface --> ModelInterface
+    ModelInterface --> DBMSInterface
+    NotificationInterface --> StudentServerAPI
+    
+    class StudentServerAPI {
+        + handleRequest(path, type): void
+    }
+
+    class StudentRegistrationInterface {
+        + registerStudent(StudentData): void
+    }
+
+    class GitHubInterface {
+        + pullSubmission(Tournament, Battle, Student) : Submission, TestCases
+    }
+
+    class StudentLoginInterface {
+        + loginUser(StudentData): void
+    }
+
+    class StudentTournamentInterface {
+        + registerForTournament(Tournament, Student): void
+        + showTournamentRanking(Tournament) : void
+    }
+
+    class StudentBattleInterface {
+        + registerForBattle(Tournament,Battle, Student): void
+        + registerForBattle(Tournament, Battle, Team, Student): void
+        + showBattleRanking(Tournament,Battle): void
+    }
+
+    class TeamInterface {
+        + createTeam(Tournament, Battle, Student, int): void
+        + joinTeam(Student,Team,Tournament,Battle): void
+        + deleteTeam(Team): void
+        + exitFromTeam(Team): void
+    }
+
+    class StudentBadgeInterface {
+        + showBadges(Student): void
+        + showMyBadges(): void
+    }
+
+    class SubmissionInterface {
+        + evaluateSubmission(Tournament, Battle, Student,TestCases, Submission): void
+        + evaluateSubmission(Tournament, Battle, Team, TestCases, Submission): void
+        + notify(Student, int): void
+        + notify(Team, int): void
+    }
+
+    class NotificationInterface {
+        + sendNotification(Student, String): void
+    }
+
+    class ModelInterface {
+        
+        + handleRegistration(StudentData): void
+        + handleRegistration(EducatorData): void
+        + createTournament(TournamentData, Educator): void
+        + createBattle(Tournament, BattleData, Educator): void
+        + giveBattleCreationPermission(Educator1, Educator2, Tournament): void
+        + createTeam(Student, Team, Tournament, Battle): void
+        + joinTeam(Student,Team,Tournament,Battle): void
+        + assignBattleScore(Tournament, Battle, Team): void
+        + assignBattleScore(Tournament, Battle, Student): void
+        + assignBadges(Tournament, Battle, Student[], Badge[]): void
+        + updateTournamentScores(Tournament): void
+        + closeTournament(Tournament, Educator): void
+        + manualEvaluate(Team[], int[], Tournament, Battle)
+        + deleteTeam(Team): void
+
+     }
+
+    class DBMSInterface {
+        + INSERT(query)
+        + SELECT(query)
+        + UPDATE(query, data)
+        + DELETE(query)
+    }
+
+    class ExternalGitHubAPI {
+        + newPush(): void
+        + getSubmission(Student, int): Submission
+        + getLastSubmission(Student): Submission
+    }
+
+    class EducatorServerAPI {
+        + handleRequest(path, type)
+    }
+
+    class RegistrationEducatorInterface {
+        + registerEducator(EducatorData): void
+    }
+
+    class LoginEducatorInterface {
+        + loginEducator(EducatorData): void
+    }
+
+    class TournamentInterface {
+        + createTournament(TournamentData): void
+        + closeTournament(Tournament): void
+        + showTouramentRanking(Tournament)
+    }
+
+    class BattleInterface {
+        + createBattle(BattleData): void
+        + giveBattleCreationPermission(Educator1, Educator2, Tournament): void
+        + showBattleRanking(Tournament,Battle): void
+    }
+
+    class EvaluationInterface {
+        + manualEvaluate(Team[], int[], Tournament, Battle)
+        + evaluateSolution(): void
+    }
+
+    class BadgeInterface {
+        + showBadges(Student): void
+        + showTournamentBadges(Tournament): void
+        + assignBadge(Tournament, Student): void
+    }
+
+    class DataRetrievalInterface{
+        + retrieveData(Student): String
+        + retrieveData(Tournament): String
+        + retrieveData(Battle):String
+    }
